@@ -1,30 +1,20 @@
-//  CREATE TABLE seats (
-//      id SERIAL PRIMARY KEY,
-//      name VARCHAR(255),
-//      isbooked INT DEFAULT 0
-//  );
-// INSERT INTO seats (isbooked)
-// SELECT 0 FROM generate_series(1, 20);
-
 import express from "express";
 import pg from "pg";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
+import "dotenv/config";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const port = process.env.PORT || 8080;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Equivalent to mongoose connection
-// Pool is nothing but group of connections
-// If you pick one connection out of the pool and release it
-// the pooler will keep that connection open for sometime to other clients to reuse
 const pool = new pg.Pool({
   host: "localhost",
-  port: 5433,
+  port: 5432,
   user: "postgres",
-  password: "postgres",
+  password: process.env.DB_PASSWORD,
   database: "sql_class_2_db",
   max: 20,
   connectionTimeoutMillis: 0,
@@ -37,7 +27,7 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-//get all seats
+
 app.get("/seats", async (req, res) => {
   const result = await pool.query("select * from seats"); // equivalent to Seats.find() in mongoose
   res.send(result.rows);
