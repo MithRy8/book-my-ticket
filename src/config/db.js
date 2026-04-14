@@ -1,8 +1,6 @@
 import pg from "pg";
 import "dotenv/config";
 
-console.log("My Database URL is: ", process.env.DB_PASSWORD);
-
 // The Smart Pool
 const pool = new pg.Pool(
   process.env.DB_PASSWORD
