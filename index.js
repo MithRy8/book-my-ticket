@@ -1,5 +1,5 @@
 import express from "express";
-import { dirname } from "path";
+import path from "path"; // Fixed: Importing the whole path module
 import { fileURLToPath } from "url";
 import cors from "cors";
 import "dotenv/config";
@@ -14,24 +14,32 @@ const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 8080;
 
-const app = new express();
+const app = express(); // Fixed: Removed 'new'
 app.use(cors());
 app.use(express.json());
+
+// Serving static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", authRoutes);
 
+// Updated to use path.join for reliability
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/seats", async (req, res) => {
-  const result = await pool.query(`
-    SELECT seats.id, seats.isbooked, COALESCE(users.username, seats.name) as name 
-    FROM seats 
-    LEFT JOIN users ON seats.user_id = users.id
-  `);
-  res.send(result.rows);
+  try {
+    const result = await pool.query(`
+      SELECT seats.id, seats.isbooked, COALESCE(users.username, seats.name) as name 
+      FROM seats 
+      LEFT JOIN users ON seats.user_id = users.id
+    `);
+    res.send(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Database error" });
+  }
 });
 
 app.put("/:id/:name", authenticateToken, async (req, res) => {
@@ -52,17 +60,22 @@ app.put("/:id/:name", authenticateToken, async (req, res) => {
       return res.status(400).send({ error: "Seat already booked" });
     }
 
-    const sqlU =
-      "update seats set isbooked = 1, name = $2, user_id = $3 where id = $1";
+    const sqlU = "update seats set isbooked = 1, name = $2, user_id = $3 where id = $1";
     await conn.query(sqlU, [id, name, userId]);
 
     await conn.query("COMMIT");
     conn.release();
     res.send({ success: true, message: "Seat booked successfully!" });
   } catch (ex) {
-    console.log(ex);
+    console.error(ex);
     res.status(500).send({ error: "Internal server error" });
   }
 });
 
-app.listen(port, () => console.log("Server starting on port: " + port));
+// For local testing
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => console.log("Server starting on port: " + port));
+}
+
+// CRITICAL FOR VERCEL
+export default app;
