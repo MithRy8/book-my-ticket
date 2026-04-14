@@ -9,13 +9,15 @@ import pool from "./src/config/db.js";
 import authRoutes from "./src/features/auth/auth.routes.js";
 import { authenticateToken } from "./src/middlewares/authMiddleware.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const port = process.env.PORT || 8080;
 
 const app = new express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", authRoutes);
 
