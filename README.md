@@ -10,14 +10,14 @@ Deployed live on [Vercel](https://vercel.com).
 - **Real-Time Seat Booking:** Interactive grid of 48 seats. Visual indicators for available (green) vs. booked (red) seats.
 - **Dynamic Course Selection:** Choose from four different coding playlists; the UI dynamically updates your selection.
 - **Concurrency Protection:** Database-level locking (`FOR UPDATE`) prevents double-booking if two users try to book the exact same seat simultaneously.
-- **Serverless Ready:** Optimized for Vercel deployment using standard ES modules and a custom `vercel.json` routing configuration.
+- **Serverless Ready:** Optimized for Vercel deployment using standard ES modules
 - **Modern UI/UX:** Glassmorphism design, custom scrollbars, interactive modals, and smooth CSS transitions using Tailwind.
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS (CDN)
 - **Backend:** Node.js, Express.js
-- **Database:** PostgreSQL (Hosted on [Neon.tech](https://neon.tech))
+- **Database:** PostgreSQL 
 - **Authentication:** JSON Web Tokens (`jsonwebtoken`), `bcrypt`
 - **Deployment:** Vercel - https://book-my-ticket-virid.vercel.app/
 
