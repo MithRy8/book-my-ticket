@@ -19,7 +19,7 @@ Deployed live on [Vercel](https://vercel.com).
 - **Backend:** Node.js, Express.js
 - **Database:** PostgreSQL (Hosted on [Neon.tech](https://neon.tech))
 - **Authentication:** JSON Web Tokens (`jsonwebtoken`), `bcrypt`
-- **Deployment:** Vercel
+- **Deployment:** Vercel - https://book-my-ticket-virid.vercel.app/
 
 ## 📂 Project Structure
 
