@@ -1,4 +1,4 @@
-# 🚀 Chai Code Playlist Booking (Backend Ninja Hackathon)
+# Chai Code Playlist Booking (Backend Ninja Hackathon)
 
 A full-stack, hybrid web application built to reserve seats for exclusive "Chai Aur Code" YouTube learning playlists. This project features a robust Express.js backend, a cloud-hosted PostgreSQL database (Neon), secure JWT authentication, and a sleek, responsive UI styled with Tailwind CSS.
 
